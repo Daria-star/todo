@@ -4,71 +4,75 @@ import classes from './filter.module.scss';
 
 export default class Filter extends Component {
 
-    state = {
-        clickAll: false,
-        clickDone: false,
-        clickImportant: false
-    }
 
-    itemClickAll=()=>{
-        this.setState(()=>{
-            return {
-                clickAll: true,
-                clickDone: false,
-                clickImportant: false
-            }
-        })
-    }
-    itemClickDone=()=>{
-        this.setState(()=>{
-            return {
-                clickDone: true,
-                clickAll: false,
-                clickImportant: false
-            }
-        })
-    }
-    itemClickImportant=()=>{
-        this.setState(()=>{
-            return {
-                clickImportant: true,
-                clickAll: false,
-                clickDone: false
-            }
-        })
-    }
+    buttons = [
+        {name: 'all', text: 'All'},
+        {name: 'done', text: 'Done'},
+        {name: 'important', text: 'Important'},
+    ]
+    // state = {
+    //     clickAll: false,
+    //     clickDone: false,
+    //     clickImportant: false
+    // }
+
+    // itemClickAll=()=>{
+    //     this.setState(()=>{
+    //         return {
+    //             clickAll: true,
+    //             clickDone: false,
+    //             clickImportant: false
+    //         }
+    //     })
+    // }
+    // itemClickDone=()=>{
+    //     this.setState(()=>{
+    //         return {
+    //             clickDone: true,
+    //             clickAll: false,
+    //             clickImportant: false
+    //         }
+    //     })
+    // }
+    // itemClickImportant=()=>{
+    //     this.setState(()=>{
+    //         return {
+    //             clickImportant: true,
+    //             clickAll: false,
+    //             clickDone: false
+    //         }
+    //     })
+    // }
 
     render(){
-        const {filterBlock, filterBlock__item, filterBlock__item_withoutBorder, filterBlock__item_all, filterBlock__item_allClick,
-                filterBlock__item_done, filterBlock__item_doneClick, filterBlock__item_important, filterBlock__item_importantClick} = classes;
-        let itemclassAll = filterBlock__item_all;
-        let itemclassDone = filterBlock__item_done;
-        let itemclassImportant = filterBlock__item_important;
+        const {filterBlock, filterBlock__itemAll, filterBlock__itemAllActive} = classes;
+        let itemclass = filterBlock__itemAll;
 
-        if (this.state.clickAll) {
-            itemclassAll += ` ${filterBlock__item_allClick}`;
+        if (this.props.filterName === 'all') {
+            itemclass += ` ${filterBlock__itemAllActive}`;
+        }else if (this.props.filterName === 'done') {
+            itemclass += ` ${filterBlock__itemAllActive}`;
+        } else if (this.props.filterName === 'important') {
+            itemclass += ` ${filterBlock__itemAllActive}`;
         }
-        if (this.state.clickDone) {
-            itemclassDone += ` ${filterBlock__item_doneClick}`;
-        }
-        if (this.state.clickImportant) {
-            itemclassImportant += ` ${filterBlock__item_importantClick}`;
-        }
+
+        const btns = this.buttons.map((item) => {
+            return(
+                <div
+                    key = {item.name}
+                    onClick = {() => this.props.onFilterItem(item.name)}
+                    className = {filterBlock__itemAll + ' ' + itemclass}>
+                    {item.text}
+                </div>
+                
+            )
+        })
 
         return(
             <div className = {filterBlock}>
-                <div onClick = {this.itemClickAll} className={filterBlock__item + ' ' + itemclassAll}>
-                All
-                </div>
-                <div onClick = {this.itemClickDone} className={filterBlock__item + ' ' + itemclassDone}>
-                Done
-                </div>
-                <div onClick = {this.itemClickImportant} className={filterBlock__item + ' ' + filterBlock__item_withoutBorder + ' ' + itemclassImportant}>
-                Important
-                </div>
+                {btns}
             </div>
         ); 
     }
     
 }
-

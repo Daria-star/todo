@@ -7,36 +7,36 @@ import deleteMark from './img/deleteMark.png';
 
 export default class TodoItem extends Component {
 
-    state = {
-        done: false,
-        del: false
-    }
+    // state = {
+    //     done: false,
+    //     del: false
+    // }
 
-    itemDone=()=>{
-        this.setState(({done})=>{
-            return {
-                done: !done
-            }
-        })
-    }
+    // itemDone=()=>{
+    //     this.setState(({done})=>{
+    //         return {
+    //             done: !done
+    //         }
+    //     })
+    // }
     
     
     render(){
         
-        const {text, onDelItem} = this.props;
+        const {text, onItemDone, onDelItem} = this.props;
         const {todoItem, todoItemDone, todoItemBlock, itemButtonOK, itemButtonX} = classes;
         let itemClasses = todoItem;
 
-        if (this.state.done) {
+        if (this.props.doneImportant) {
             itemClasses += ` ${todoItemDone}`;
         }
     
         return(
             <div className = {todoItemBlock}>
-            <li onClick = {this.itemDone}           
+            <li onClick = {onItemDone}           
             className={itemClasses}>{text}</li>
             <div>            
-                <button  onClick = {this.itemDone} className={itemButtonOK}>
+                <button  onClick = {onItemDone} className={itemButtonOK}>
                     <img src={checkMark} alt="logo"/>
                 </button>
                 <button  onClick = {onDelItem} className={itemButtonX}>

@@ -12,11 +12,22 @@ export default class App extends Component{
 
   state = {
     todoList: [
-      {id: 1, text: 'Wake up', filt: 'done'},
-      {id: 2, text: 'Eat breakfast', filt: 'done'},
-      {id: 3, text: 'Go to work', filt: 'important'}
-    ]
+      {id: 1, text: 'Wake up', done: false, important: false},
+      {id: 2, text: 'Eat breakfast', done: false, important: false},
+      {id: 3, text: 'Go to work', done: false, important: false}
+    ],
+    filter: 'all'
   }
+
+  itemId = 4;
+
+  itemDone=(done, important)=>{
+    this.setState(({todoList})=>{
+        return {
+            done: !todoList.done
+        }
+    })
+}
   
   delItem = (id) => {
     this.setState(({todoList}) => {
@@ -31,34 +42,49 @@ export default class App extends Component{
     })
   }
 
-  addItem = () => {
-    this.setState(({todoList}) => {
-      const newTodoList = [...todoList];
-      const itemTodo = {id: 4, text: 'Go to bed', filter: 'important'};
-      newTodoList.push(itemTodo);
+  addItem = (text) => {
+      console.log(text);
+      const newTodoItem = {id: this.itemId++, text: text};
 
-      return {
-        todoList: newTodoList
-      }
-    })
+      this.setState(({todoList}) => {
+        const newTodoList = [
+          ...todoList,
+          newTodoItem
+        ]
+        return {
+          todoList: newTodoList
+        }
+      })
   }
 
-  filterItem = () => {
-    this.setState(({todoList}) => {     
-      if(this.state.todoList.filt === 'done'){
-        return todoList
-      }
+  filterItem = (name) => {
+    this.setState({
+      filter: name
     })
+    if (name === 'done') {
+      this.setState(({todoList}) => {
+        const newArr = todoList.filter((item) => {
+          return item.id === 1
+        })
+        return{
+          todoList: newArr
+        }
+      })
+    }
   }
 
   render() {
     return (
       <div className = {classes.appBlock}>
           <SearchPanel/>
-          <Filter itemClickDone = {this.filterItem}/>
+          <Filter
+              onFilterItem = {this.filterItem}
+              filterName = {this.state.filter}/>
           <TodoList 
               todos = {this.state.todoList}
-              onDelItem = {this.delItem}/>
+              onDelItem = {this.delItem}
+              onItemDone = {this.itemDone}
+              doneImportant = {this.state.todoList.done}/>
           <Task onAddItem = {this.addItem}/>
       </div>
     );

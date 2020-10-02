@@ -1,0 +1,28 @@
+.searchPanel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    &__txt{
+        font-size: 30px;
+        font-family: sans-serif;  
+    }
+    &__input{
+        width: 350px;
+        height: 35px;
+        font-family: sans-serif;
+        padding-left: 10px; 
+    }
+    &__btn{
+        width: 80px;
+        height: 35px;
+        cursor: pointer;
+        outline: none;
+        border: 1px solid #1E90FF;
+        background: #1E90FF;
+        color: white;
+        font-size: 18px;
+        font-family: sans-serif;
+        box-shadow: 2px 2px 4px #1E90FF;  
+    }
+}
